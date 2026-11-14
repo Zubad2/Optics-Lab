@@ -10,6 +10,7 @@ This project is an independent classroom style recreation inspired by educationa
 
 * **Concept & Inspiration:** [PhET Interactive Simulations](https://phet.colorado.edu/), University of Colorado Boulder.
 * **Purpose:** Built for educational exploration, interactive physics demonstrations and web based learning.
-* 
+
+  
 ## Getting Started Locally
 To run or modify this project locally, clone the repository or download whole code base as ZIP.
