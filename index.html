@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Optics Lab: an interactive simulation of lenses, mirrors, ray diagrams and images."
+    />
+    <meta name="theme-color" content="#4a2f12" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'"
+    />
+    <title>Optics Lab</title>
+    <link rel="icon" href="assets/favicon.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <noscript><p class="nojs">This simulation needs JavaScript to run.</p></noscript>
+    <div id="stage">
+      <div id="hint">
+        <span
+          >Drag the <b>object</b> (dashed ring) to move and resize it, drag the <b>lens</b> sideways, scroll
+          to zoom or use the arrow keys or try a ready-made example.</span
+        ><button id="hintClose" type="button" aria-label="Dismiss tip">&times;</button>
+      </div>
+
+      <canvas
+        id="c"
+        tabindex="0"
+        aria-label="Optics bench. Arrow keys move the object; hold Shift on your keyboard to move the lens or mirror."
+      ></canvas>
+      <section class="panel" id="pEx">
+        <h2>Try an example</h2>
+        <div class="presets" id="presets"></div>
+      </section>
+      <section class="panel notebook" id="pMeas">
+        <h2>Lab details</h2>
+        <dl>
+          <dt>Focal length</dt>
+          <dd id="rf"></dd>
+          <dt>Object distance</dt>
+          <dd id="rd"></dd>
+          <dt>Image distance</dt>
+          <dd id="rdi"></dd>
+          <dt>Magnification</dt>
+          <dd id="rM"></dd>
+          <dt>Image</dt>
+          <dd id="rT"></dd>
+        </dl>
+        <p class="say" id="rSay" role="status"></p>
+      </section>
+      <div class="col" id="colL">
+        <section class="panel" id="pObj">
+          <h2>Object</h2>
+          <div class="pics">
+            <label class="pic"
+              ><input type="radio" name="obj" value="pencil" checked /><img
+                src="assets/obj-pencil.svg"
+                alt="Pencil"
+                title="Pencil" /></label
+            ><label class="pic"
+              ><input type="radio" name="obj" value="candle" /><img
+                src="assets/obj-candle.svg"
+                alt="Candle"
+                title="Candle" /></label
+            ><label class="pic"
+              ><input type="radio" name="obj" value="star" /><img
+                src="assets/obj-star.svg"
+                alt="Star"
+                title="Star" /></label
+            ><label class="pic"
+              ><input type="radio" name="obj" value="arrow" /><img
+                src="assets/obj-arrow.svg"
+                alt="Arrow"
+                title="Arrow" /></label
+            ><label class="pic"
+              ><input type="radio" name="obj" value="F" /><img
+                src="assets/obj-F.svg"
+                alt="Letter F card"
+                title="Letter F card" /></label
+            ><label class="pic"
+              ><input type="radio" name="obj" value="bulb" /><img
+                src="assets/obj-bulb.svg"
+                alt="Light bulb"
+                title="Light bulb"
+            /></label>
+          </div>
+        </section>
+        <section class="panel" id="pView">
+          <h2>View</h2>
+          <div class="zoomrow">
+            <button class="chip" id="zoomOut" type="button" aria-label="Zoom out" title="Zoom out">−</button
+            ><button
+              class="chip"
+              id="zoomFit"
+              type="button"
+              aria-label="Reset zoom"
+              title="Reset zoom and position"
+            >
+              100%</button
+            ><button class="chip" id="zoomIn" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+          </div>
+        </section>
+      </div>
+      <div class="col" id="colR">
+        <section class="panel" id="pRays">
+          <h2>Rays</h2>
+          <label class="opt" title="Three rays that are easy to trace by hand"
+            ><input type="radio" name="rays" value="principal" checked /> Principal</label
+          >
+          <label class="opt" title="Rays through the top and bottom edge of the lens"
+            ><input type="radio" name="rays" value="marginal" /> Marginal</label
+          >
+          <label class="opt" title="A fan of rays across the whole lens"
+            ><input type="radio" name="rays" value="many" /> Many</label
+          >
+          <label class="opt"><input type="radio" name="rays" value="none" /> None</label>
+          <hr />
+          <label class="opt" title="Mark the focal points with F"
+            ><input type="checkbox" id="showF" checked /><img src="assets/focal.svg" alt="" /> Focal
+            points</label
+          >
+          <label class="opt" title="Show virtual images and the dashed rays behind them"
+            ><input type="checkbox" id="showVirt" checked /> Virtual image</label
+          >
+          <label class="opt"><input type="checkbox" id="showGrid" checked /> Chalk grid</label>
+          <label class="opt" id="scrOpt" title="Catch the real image on a movable screen"
+            ><input type="checkbox" id="showScr" /> Screen</label
+          >
+        </section>
+        <section class="panel" id="pOpt">
+          <h2 id="optTitle">Lens</h2>
+          <div class="pics" id="elPick"></div>
+          <div class="sl" id="rrow" title="Radius of the main curved surface">
+            <div><span>Radius of curvature</span><output id="oR"></output></div>
+            <input
+              id="R"
+              aria-label="Radius of curvature"
+              type="range"
+              min="20"
+              max="100"
+              step="1"
+              value="25"
+            />
+          </div>
+          <div class="sl" id="nrow" title="How strongly the glass bends light">
+            <div><span>Index of refraction</span><output id="on"></output></div>
+            <input
+              id="n"
+              aria-label="Index of refraction"
+              type="range"
+              min="1.2"
+              max="2"
+              step="0.01"
+              value="1.5"
+            />
+          </div>
+          <div class="sl" title="Height of the lens or mirror">
+            <div><span>Diameter</span><output id="oD"></output></div>
+            <input id="D" aria-label="Diameter" type="range" min="8" max="24" step="1" value="22" />
+          </div>
+        </section>
+      </div>
+    </div>
+    <nav>
+      <button class="tab" data-tab="lens" aria-pressed="true" aria-label="Lens">
+        <img src="assets/tab-lens.svg" alt="" />Lens
+      </button>
+      <button class="tab" data-tab="mirror" aria-pressed="false" aria-label="Mirror">
+        <img src="assets/tab-mirror.svg" alt="" />Mirror
+      </button>
+      <span class="plaque">Optics Lab</span>
+      <small
+        >Independent classroom-style recreation. Concept by PhET Interactive Simulations, University of
+        Colorado Boulder.</small
+      >
+      <button id="reset" type="button" aria-label="Reset all" title="Reset all">
+        <img src="assets/reset.svg" alt="" />
+      </button>
+    </nav>
+    <script src="js/physics.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/assets.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/presets.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

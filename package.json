@@ -1,0 +1,9 @@
+{
+  "name": "optics-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optics Lab: an interactive simulation of lenses, mirrors and ray diagrams. ",
+  "scripts": {
+    "test": "node --test"
+  }
+}
