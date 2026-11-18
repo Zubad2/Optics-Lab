@@ -2,7 +2,7 @@
 
 An interactive, web-based optics laboratory simulation. Explore the world of light, lenses, mirrors and rays in a digital environment.
 
-**Explore:** [Click here!]((https://zubad2.github.io/Optics-Lab/))
+**Explore:** [Click here!](https://zubad2.github.io/Optics-Lab/)
 
 
 ## About
