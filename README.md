@@ -14,3 +14,6 @@ This project is an independent classroom style recreation inspired by educationa
   
 ## Getting Started Locally
 To run or modify this project locally, clone the repository or download whole code base as ZIP.
+
+## Known issue
+There are some UI related issues.
